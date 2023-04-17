@@ -22,14 +22,18 @@ plt.xlabel('No Churn: 0  Vs  Churned: 1')
 plt.ylabel('Count')
 
 #%%
+# select columns not object
+df_cv = df.select_dtypes(exclude='object')
+df_cv
+#%%
+
 fig, ax = plt.subplots(3,4,figsize=(20, 18))
 fig.suptitle('Density of Numeric Features by Churn', fontsize=20)
 ax = ax.flatten()
 
-for i in df.columns[2:]:
-    if df.dtypes[i] != np.dtype('object'):
-        sns.kdeplot(data=df_c[i], label='Churned', linewidth=3)
-        sns.kdeplot(data=df_nc[i], label='No Churn', linewidth=3)
+for idx,col in enumerate(df_cv.columns[2:]):
+    sns.kdeplot(data=df_c[col], label='Churned', linewidth=3, ax=ax[idx] )
+    sns.kdeplot(data=df_nc[col], label='No Churn', linewidth=3, ax=ax[idx])
 plt.show()
 
 
